@@ -13,6 +13,7 @@ from rest_framework import views
 
 from .backend.get_data import getRecentNews
 from .models import FollowList
+from .serializers import SentimentSerializer
 
 
 class Register(views.APIView):
@@ -22,7 +23,8 @@ class Register(views.APIView):
             user = User.objects.create_user(username=username, password=password)
         except:
             return Response("Please Try again")
-        FollowList(user=user, followList="")
+        FollowList(user=user, followList="").save()
+
         return Response("Success")
 
 
@@ -43,7 +45,7 @@ class Watchlist(views.APIView):
         name = request.query_params['company_name']
         fl = FollowList.objects.get(user=request.user)
         flString = fl.followList
-        fl.followList = fl.followList + name
+        fl.followList = fl.followList + "::" +name
         fl.save()
         return Response("saved")
 
@@ -53,5 +55,5 @@ class Watchlist(views.APIView):
             fl = FollowList.objects.get(user=request.user)
         except:
             return Response([])
-        #res = {"followList":  fl.followList.split("::")}
-        return Response("TODO")
+
+        return Response(str(fl))

@@ -21,4 +21,4 @@ class FollowList(models.Model):
 
     def __str__(self):
         """A string representation of the model."""
-        return str(self.user)
+        return str(self.followList)
