@@ -28,8 +28,7 @@ class Register(views.APIView):
         return Response("Success")
 
 
-class ApiResponse(views.APIView):
-
+class Analyze(views.APIView):
     def get(self, request: Request):
         q = request.query_params['query']
         result = getRecentNews(q)
